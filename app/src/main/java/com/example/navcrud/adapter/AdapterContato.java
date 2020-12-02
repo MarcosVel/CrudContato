@@ -15,11 +15,11 @@ import com.example.navcrud.model.Contato;
 import java.util.List;
 
 public class AdapterContato extends RecyclerView.Adapter<AdapterContato.MyViewHolder> {
-    private List<Contato> lisaContato;
+    private List<Contato> listaContato;
     private Context mContext;
 
-    public AdapterContato(List<Contato> lisaContato) {
-        this.lisaContato = lisaContato;
+    public AdapterContato(List<Contato> listaContato) {
+        this.listaContato = listaContato;
     }
 
     @NonNull
@@ -31,24 +31,26 @@ public class AdapterContato extends RecyclerView.Adapter<AdapterContato.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Contato contato = lisaContato.get(position);
-        holder.nomeContanto.setText(contato.getNomeContato());
+        Contato contato = listaContato.get(position);
+        holder.nomeContato.setText(contato.getNomeContato());
         holder.telContato.setText(contato.getTelContato());
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listaContato.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView nomeContanto;
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView nomeContato;
         TextView telContato;
-        public MyViewHolder (@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            nomeContanto = itemView.findViewById(R.id.textViewNome);
+            nomeContato = itemView.findViewById(R.id.textViewNome);
             telContato = itemView.findViewById(R.id.textViewTelefone);
         }
-
     }
+
 }
+

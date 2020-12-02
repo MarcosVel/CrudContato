@@ -40,9 +40,9 @@ public class lstContatoActivity extends AppCompatActivity {
         rv.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                // Recuperar os contatos para edição
+                //Recuperar os contatos para edição
                 Contato contatoSelecionado = listaContato.get(position);
-                // Criar uma Intent para enviar os objeto contato para a tela AddContato.
+                //Criar uma Intent para enviar os objeto contato para a tela AddContato.
                 Intent intent = new Intent(lstContatoActivity.this, AddContatoActivity.class);
                 intent.putExtra("contatoSelecionado", (Serializable) contatoSelecionado);
                 startActivity(intent);
@@ -50,27 +50,34 @@ public class lstContatoActivity extends AppCompatActivity {
 
             @Override
             public void onLongItemClick(View view, int position) {
-                // Recuperar o contato que será incluido
+
+
+                //Recuperar o contato que será EXCLUÍDO
+
+                contatoSelecionado = listaContato.get(position);
+
                 AlertDialog.Builder dialog = new AlertDialog.Builder(lstContatoActivity.this);
-                // Configurar nosso dialogo
+                //Configurar nosso dialog
 
                 dialog.setTitle("Confirmar Exclusão");
-                dialog.setMessage("Deseja excluir o contato " + contatoSelecionado.getNomeContato() + "?");
+                dialog.setMessage("Deseja excluir o contato " + contatoSelecionado.getNomeContato()+ "?");
                 dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ContatoDAO contatoDAO = new ContatoDAO(getApplicationContext());
-                        if (contatoDAO.deletar(contatoSelecionado)) {
+                        if(contatoDAO.deletar(contatoSelecionado)){
                             carregarListaContatos();
-                            Toast.makeText(getApplicationContext(), "Sucesso ao excluir o contato", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Erro ao excluir o contato", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Sucesso ao excluir o contato",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Erro ao excluir o contato",Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
-                dialog.setNegativeButton("Não", null);
+                dialog.setNegativeButton("Não",null);
                 dialog.create();
                 dialog.show();
+
             }
 
             @Override
@@ -83,10 +90,12 @@ public class lstContatoActivity extends AppCompatActivity {
         btnNovo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(lstContatoActivity.this, AddContatoActivity.class);
+                Intent intent = new Intent(lstContatoActivity.this,AddContatoActivity.class);
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -96,10 +105,11 @@ public class lstContatoActivity extends AppCompatActivity {
     }
 
     private void carregarListaContatos() {
+
         ContatoDAO contatoDAO = new ContatoDAO(getApplicationContext());
-        // Exibir a lista de contatos no RecyclerView
+        //Exibir a lista de contatos no RecyclerView
         listaContato = contatoDAO.listar();
-        // Configurar adapter
+        //Configurar odapter
         contatoAdapter = new AdapterContato(listaContato);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
